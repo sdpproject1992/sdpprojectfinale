@@ -1,0 +1,32 @@
+.App {
+  text-align: center;
+}
+
+
+.loginGrad {
+  background-image: linear-gradient(to right, #0085FF 0%, #26a0da 51%, #0085FF 100%);
+  margin: 10px;
+  padding: 10px 45px;
+  /* Adjust padding to fit the smaller height */
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 10px;
+  height: 40px;
+  /* Adjust the height */
+  display: block;
+  border-radius: 50px;
+  line-height: 1;
+  /* Ensure text is vertically centered */
+  font-size: 1.25rem;
+}
+
+.loginGrad:hover {
+  background-position: right center;
+  /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
