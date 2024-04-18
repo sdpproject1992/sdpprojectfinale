@@ -31,10 +31,7 @@ const AuthDetails = () => {
         <div>
             {authUser ? (
                 <>
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                        <p style={{color:"white"}}>Signed In As {authUser.email}</p>
-                        <button onClick={() => { userSignOut(); window.open("/", "_self"); }}>Sign Out</button>
-                    </div>
+                        <button className= "loginGrad"  style={{}} onClick={() => { userSignOut(); window.open("/", "_self"); }}>Sign Out</button>
 
                 </>
             ) : (

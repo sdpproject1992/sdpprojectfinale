@@ -130,14 +130,18 @@ export default function MainPage() {
             rating: complexityRating,
             code: code,
             complexity: complexity,
-            date: formattedDate
+            date: formattedDate,
+            email: auth.currentUser.email
         }).then(() => {
             alert("Successfull!")
+            window.open("/main  ", "_self")
         }).catch((error) => {
             console.error(error);
             alert("Error!");
         });
     }
+
+
 
     function rateCyclomaticComplexity(complexity) {
         if (complexity >= 1 && complexity <= 10) {
@@ -152,6 +156,16 @@ export default function MainPage() {
             return "Very Poor";
         }
     }
+
+    function getCyclomaticComplexityRating(complexity) {
+        if (complexity >= 1 && complexity <= 10) return "Very Good";
+        if (complexity >= 11 && complexity <= 20) return "Good";
+        if (complexity >= 21 && complexity <= 50) return "Medium";
+        if (complexity > 50) return "Poor";
+        return "Very Poor";
+    }
+    
+    
 
     function calculateNumberOfLines(code) {
         if (typeof code === 'string') {
@@ -173,6 +187,25 @@ export default function MainPage() {
         });
     }
 
+    function AdminDash() {
+        const user = auth.currentUser.uid;
+        get(ref(db, `users/${user}`)).then((snapshot) => {
+
+            if (snapshot.val().type === "admin") {
+                console.log("ADMIN");
+                window.open("/adminDashboard", "_self")
+            }
+            else{
+                console.log("NO")
+                alert("You are not admin!")
+            }
+
+        }).catch((error) => {
+            console.error(error);
+            alert("Error occurred while retrieving user saves!");
+        });
+    }
+
     if (!userSaves) {
         return (
             <div><h1>LOADING</h1></div>
@@ -185,7 +218,11 @@ export default function MainPage() {
                 <div>
                     <img src={appLogo} style={{ height: "40px", width: "auto", marginTop: "15px", marginLeft: "10px" }} alt="App Logo" />
                 </div>
-                <div>
+
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                    <button className="loginGrad" style={{}} onClick={() => AdminDash()}>
+                        Admin Dashboard
+                    </button>
                     <AuthDetails />
                 </div>
             </div>
@@ -203,7 +240,7 @@ export default function MainPage() {
 
                             <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
 
-                                <button style={{ marginTop: "50px", width: "55px", height: "30px" }} onClick={() => { setShowResult1(false); setShowButtons(true)}}> BACK </button>
+                                <button style={{ marginTop: "50px", width: "55px", height: "30px" }} onClick={() => { setShowResult1(false); setShowButtons(true) }}> BACK </button>
                                 <button
                                     id="code1"
                                     style={{ marginTop: "50px", marginLeft: "10px", width: "55px", height: "30px" }}
@@ -224,12 +261,12 @@ export default function MainPage() {
                                         <label style={{ marginLeft: "57px" }}>Rating</label>
                                         <label style={{ marginLeft: "120px" }}>Code </label>
                                     </div>
-                                    <div style={{width:"1000px", height:"1px", backgroundColor:"black", marginTop:"10px"}}></div>
+                                    <div style={{ width: "1000px", height: "1px", backgroundColor: "black", marginTop: "10px" }}></div>
                                     <div style={{ height: "440px", width: "500px", backgroundColor: "transparent", overflowY: "scroll" }}>
                                         <ul style={{ listStyleType: "none", padding: 0, marginTop: "10px" }}>
                                             {Object.entries(userSaves).length === 0 ? (
                                                 <div>
-                                                    <h1 style={{margin:"0px", textAlign:"center", marginTop:"175px"}}>NO SAVES</h1>
+                                                    <h1 style={{ margin: "0px", textAlign: "center", marginTop: "175px" }}>NO SAVES</h1>
                                                 </div>
                                             ) : (
                                                 Object.entries(userSaves).map(([taskId, taskData]) => {
